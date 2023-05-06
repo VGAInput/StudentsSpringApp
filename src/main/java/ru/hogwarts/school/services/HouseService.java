@@ -1,20 +1,47 @@
 package ru.hogwarts.school.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ru.hogwarts.school.models.Faculty;
+import ru.hogwarts.school.repository.FacultyRepository;
 
 import java.util.List;
-import java.util.Map;
 
-public interface HouseService {
-    Faculty addHouse(Faculty newFaculty);
+@Service
 
-    Faculty getHouseByID(int id);
+public class HouseService {
+    @Autowired
+    private final FacultyRepository facultyRepository;
 
-    Map<Integer, Faculty> getAllHouses();
+    public HouseService(FacultyRepository facultyRepository) {
+        this.facultyRepository = facultyRepository;
+    }
 
-    Faculty updateHouse(int id, Faculty updatedFaculty);
 
-    void deleteHouse(int id);
+    public Faculty addHouse(Faculty newFaculty) {
+        return facultyRepository.save(newFaculty);
+    }
 
-    List<Faculty> getSpecificColorHouse(String findColor);
+    public Faculty getHouseByID(int id) {
+        return facultyRepository.findById(id).get();
+    }
+
+    public List<Faculty> getAllHouses() {
+        return facultyRepository.findAll();
+    }
+
+
+    public Faculty updateHouse(Faculty updatedFaculty) {
+        return facultyRepository.save(updatedFaculty);
+    }
+
+    public void deleteHouse(Faculty updatedFaculty) {
+        facultyRepository.delete(updatedFaculty);
+    }
+
+    public List<Faculty> findByColor(String findColor) {
+        return facultyRepository.findByColor(findColor);
+    }
+
+
 }
