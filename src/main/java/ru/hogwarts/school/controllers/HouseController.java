@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.models.Faculty;
+import ru.hogwarts.school.models.FacultyDTO;
 import ru.hogwarts.school.services.HouseService;
 
 import java.util.List;
@@ -36,16 +37,16 @@ public class HouseController {
     @Parameters(value = {
             @Parameter(name = "id", example = "1,2,15....")
     })
-    public ResponseEntity<Faculty> getHouse(@RequestParam int id) {
-        Faculty faculty = houseService.getHouseByID(id);
-        if (faculty == null) return ResponseEntity.notFound().build();
-        return ResponseEntity.ok(faculty);
+    public ResponseEntity<FacultyDTO> getHouse(@RequestParam int id) {
+        FacultyDTO facultyDTO = houseService.getHouseByID(id);
+        if (facultyDTO == null) return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(facultyDTO);
     }
 
     @GetMapping("/getall")
     @Operation(description = "Получение всех факультетов.")
-    public ResponseEntity<List<Faculty>> getAllHouses() {
-        List<Faculty> hiuseList = houseService.getAllHouses();
+    public ResponseEntity<List<FacultyDTO>> getAllHouses() {
+        List<FacultyDTO> hiuseList = houseService.getAllHouses();
         if (hiuseList.isEmpty()) return ResponseEntity.noContent().build();
         return ResponseEntity.ok(hiuseList);
     }
@@ -63,7 +64,7 @@ public class HouseController {
             @Parameter(name = "id", example = "1,2,15....")
     })
     public ResponseEntity<String> deleteHouse(@PathVariable int id) {
-        houseService.deleteHouse(houseService.getHouseByID(id));
+        houseService.deleteHouse(houseService.getHouseByID(id).toFaculty());
         return ResponseEntity.ok("Факультет под номером " + id + " удалён из списка.");
     }
 
@@ -74,6 +75,16 @@ public class HouseController {
     })
     public ResponseEntity<List<Faculty>> getAllHousesbyColor(@RequestParam String color) {
         List<Faculty> faculties = houseService.findByColor(color);
+        return ResponseEntity.ok(faculties);
+    }
+
+    @GetMapping("/findbyname/{name}")
+    @Operation(description = "Получение списка факультетов по имени.")
+    @Parameters(value = {
+            @Parameter(name = "тфьу", example = "slytherin")
+    })
+    public ResponseEntity<List<Faculty>> getAllHousesbyName(@RequestParam String name) {
+        List<Faculty> faculties = houseService.findByName(name);
         return ResponseEntity.ok(faculties);
     }
 
