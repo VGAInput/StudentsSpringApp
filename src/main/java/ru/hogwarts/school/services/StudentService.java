@@ -22,7 +22,7 @@ public class StudentService {
         return studentRepository.save(newStudent);
 
     }
-    public StudentDTO getStudentByID(int id) {
+    public StudentDTO getStudentByID(long id) {
         Student student = studentRepository.findById(id).orElse(null);
         return StudentDTO.fromStudent(student);
     }
