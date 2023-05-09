@@ -26,7 +26,7 @@ public class HouseService {
         return facultyRepository.save(newFaculty);
     }
 
-    public FacultyDTO getHouseByID(int id) {
+    public FacultyDTO getHouseByID(long id) {
         Faculty faculty = facultyRepository.findById(id).orElse(null);
         return FacultyDTO.fromFaculty(faculty);
     }
