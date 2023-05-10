@@ -22,6 +22,7 @@ import java.util.Map;
 
 public class StudentController {
     private final StudentService studentService;
+
     @Autowired
     public StudentController(StudentService studentService) {
         this.studentService = studentService;
@@ -45,9 +46,9 @@ public class StudentController {
     }
 
     @GetMapping("/getall")
-    @Operation(description = "Получение всех студентов.")
-    public ResponseEntity<List<StudentDTO>> getAllStudents() {
-        List<StudentDTO> studentMap = studentService.getAllStudents();
+    @Operation(description = "Получение списка студентов от - до.")
+    public ResponseEntity<List<StudentDTO>> getAllStudents(@RequestParam ("page") Integer pageNum, @RequestParam ("size") Integer pageSize) {
+        List<StudentDTO> studentMap = studentService.getAllStudents(pageNum,pageSize);
         if (studentMap.isEmpty()) return ResponseEntity.noContent().build();
         return ResponseEntity.ok(studentMap);
     }
@@ -78,13 +79,34 @@ public class StudentController {
         List<Student> studentList = studentService.findStudentsByAge(age);
         return ResponseEntity.ok(studentList);
     }
+
     @GetMapping("/findbyageBetween/{min}-{max}")
     @Operation(description = "Получение списка студентов по возрастному промежутку.")
     @Parameters(value = {
             @Parameter(name = "age", example = "18-25")
     })
-    public ResponseEntity<List<Student>> getAllStudentsByAgeBetween(@RequestParam int min,int max) {
-        List<Student> studentList = studentService.findByAgeBetween(min,max);
+    public ResponseEntity<List<Student>> getAllStudentsByAgeBetween(@RequestParam int min, int max) {
+        List<Student> studentList = studentService.findByAgeBetween(min, max);
+        return ResponseEntity.ok(studentList);
+    }
+
+
+    @GetMapping("/get-sum-of-students")
+    @Operation(description = "Получение общего числа студентов")
+    public ResponseEntity<Integer> amountOfStudents(@RequestBody Student newStudent) {
+        return ResponseEntity.ok(studentService.amountOfStudents());
+    }
+    @GetMapping("/get-average-age-of-students")
+    @Operation(description = "Получение среднего возраста студентов")
+    public ResponseEntity<Integer> getAverageAge(@RequestBody Student newStudent) {
+        return ResponseEntity.ok(studentService.getAverageAge());
+    }
+
+    @GetMapping("/get-youngest-students")
+    @Operation(description = "Получение списка самы молодых студентов")
+
+    public ResponseEntity<List<Student>> getYoungestStudents() {
+        List<Student> studentList = studentService.getYoungestStudents();
         return ResponseEntity.ok(studentList);
     }
 
