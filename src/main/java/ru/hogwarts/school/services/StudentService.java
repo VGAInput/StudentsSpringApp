@@ -1,6 +1,8 @@
 package ru.hogwarts.school.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.models.Student;
 import ru.hogwarts.school.models.StudentDTO;
@@ -22,14 +24,15 @@ public class StudentService {
         return studentRepository.save(newStudent);
 
     }
+
     public StudentDTO getStudentByID(long id) {
         Student student = studentRepository.findById(id).orElse(null);
         return StudentDTO.fromStudent(student);
     }
 
-    public List<StudentDTO> getAllStudents() {
-
-        List<Student> students = studentRepository.findAll();
+    public List<StudentDTO> getAllStudents(Integer page,Integer size) {
+        PageRequest pageRequest = PageRequest.of(page,size);
+        List<Student> students = studentRepository.findAllStudents(pageRequest);
         List<StudentDTO> studentDTOS = new ArrayList<>();
         for (Student s : students) {
             StudentDTO studentDTO = StudentDTO.fromStudent(s);
@@ -54,4 +57,15 @@ public class StudentService {
         return studentRepository.findByAgeBetween(min, max);
     }
 
+    public int amountOfStudents() {
+        return studentRepository.getAmountOfStudents();
+    }
+
+    public int getAverageAge() {
+        return studentRepository.getAverageAgeOfStudents();
+    }
+
+    public List<Student> getYoungestStudents() {
+        return studentRepository.getgetYoungestStudents();
+    }
 }
