@@ -1,0 +1,7 @@
+database changelog:
+  - include:
+      file: liquidbase/scripts/faculties.sql
+  - include:
+      file: liquidbase/scripts/students.sql
+  - include:
+      file: liquidbase/scripts/avatars.sql

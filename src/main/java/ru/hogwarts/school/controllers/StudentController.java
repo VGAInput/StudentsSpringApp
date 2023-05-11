@@ -45,7 +45,7 @@ public class StudentController {
         return ResponseEntity.ok(studentDTO);
     }
 
-    @GetMapping("/getall")
+    @GetMapping("/getAll")
     @Operation(description = "Получение списка студентов от - до.")
     public ResponseEntity<List<StudentDTO>> getAllStudents(@RequestParam ("page") Integer pageNum, @RequestParam ("size") Integer pageSize) {
         List<StudentDTO> studentMap = studentService.getAllStudents(pageNum,pageSize);
@@ -70,7 +70,7 @@ public class StudentController {
         return ResponseEntity.ok("Студент под номером " + id + " удалён из списка.");
     }
 
-    @GetMapping("/findbyage/{age}")
+    @GetMapping("/findByAge/{age}")
     @Operation(description = "Получение списка студентов по возрасту.")
     @Parameters(value = {
             @Parameter(name = "age", example = "18, 21, 25")
@@ -80,7 +80,7 @@ public class StudentController {
         return ResponseEntity.ok(studentList);
     }
 
-    @GetMapping("/findbyageBetween/{min}-{max}")
+    @GetMapping("/findByAgeBetween/{min}-{max}")
     @Operation(description = "Получение списка студентов по возрастному промежутку.")
     @Parameters(value = {
             @Parameter(name = "age", example = "18-25")
@@ -91,18 +91,18 @@ public class StudentController {
     }
 
 
-    @GetMapping("/get-sum-of-students")
+    @GetMapping("/getSum")
     @Operation(description = "Получение общего числа студентов")
     public ResponseEntity<Integer> amountOfStudents(@RequestBody Student newStudent) {
         return ResponseEntity.ok(studentService.amountOfStudents());
     }
-    @GetMapping("/get-average-age-of-students")
+    @GetMapping("/getAverageAge")
     @Operation(description = "Получение среднего возраста студентов")
     public ResponseEntity<Integer> getAverageAge(@RequestBody Student newStudent) {
         return ResponseEntity.ok(studentService.getAverageAge());
     }
 
-    @GetMapping("/get-youngest-students")
+    @GetMapping("/getYoungest")
     @Operation(description = "Получение списка самы молодых студентов")
 
     public ResponseEntity<List<Student>> getYoungestStudents() {
