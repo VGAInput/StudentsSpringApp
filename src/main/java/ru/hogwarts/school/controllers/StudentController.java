@@ -14,8 +14,6 @@ import ru.hogwarts.school.models.StudentDTO;
 import ru.hogwarts.school.services.StudentService;
 
 import java.util.List;
-import java.util.Map;
-
 @RestController
 @RequestMapping("/student")
 @Tag(name = "Контроллёр студентов", description = "CRUD-операции студентов. ")

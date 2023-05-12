@@ -15,13 +15,12 @@ public class Avatar {
     @Id
     @GeneratedValue
     private long id;
-
     private String filePath;
     private long fileSize;
     private String mediaType;
     @Lob
     private byte[] data;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "avatar")
     private Student student;
 
     public Avatar(long id, String filePath, long fileSize, String mediaType, byte[] data, Student student) {
