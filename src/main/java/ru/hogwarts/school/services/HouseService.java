@@ -4,8 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.models.Faculty;
 import ru.hogwarts.school.models.FacultyDTO;
-import ru.hogwarts.school.models.Student;
-import ru.hogwarts.school.models.StudentDTO;
 import ru.hogwarts.school.repository.FacultyRepository;
 
 import java.util.ArrayList;

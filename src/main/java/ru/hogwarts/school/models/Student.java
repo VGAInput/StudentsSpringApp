@@ -16,16 +16,20 @@ public class Student {
     private long id;
     private String name;
     private int age;
-
     @ManyToOne
     @JoinColumn(name = "faculty_id")
     private Faculty faculty;
 
-    public Student(long id, String name, int age, Faculty faculty) {
+    @OneToOne()
+    @JoinColumn(name = "avatar_id")
+    private Avatar avatar;
+
+    public Student(long id, String name, int age, Faculty faculty,Avatar avatar) {
         this.id = id;
         this.name = name;
         this.age = age;
         this.faculty = faculty;
+        this.avatar = avatar;
     }
 
     @Override
@@ -72,5 +76,13 @@ public class Student {
 
     public void setAge(int age) {
         this.age = age;
+    }
+
+    public Avatar getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(Avatar avatar) {
+        this.avatar = avatar;
     }
 }
