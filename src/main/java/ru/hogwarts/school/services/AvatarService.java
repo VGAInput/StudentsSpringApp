@@ -1,5 +1,7 @@
 package ru.hogwarts.school.services;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,11 +16,13 @@ import java.nio.file.Path;
 @Service
 @Transactional
 public class AvatarService {
-
     @Value("${application.avatars.folder}")
     private String avatarsDir;
     private final AvatarRepository avatarRepository;
     private final StudentService studentService;
+
+    Logger logger = LoggerFactory.getLogger(AvatarService.class);
+
 
     public AvatarService(AvatarRepository avatarRepository, StudentService studentService) {
         this.avatarRepository = avatarRepository;
@@ -26,6 +30,7 @@ public class AvatarService {
     }
 
     public Avatar findAvatar(Long avatarID) {
+        logger.debug("Запрос аватара по ID: {}",avatarID);
         return avatarRepository.findById(avatarID).orElse(null);
     }
 
@@ -34,6 +39,8 @@ public class AvatarService {
     }
 
     public void uploadAvatar(Long studentID, MultipartFile file) throws IOException {
+        logger.info("Вызов загрузки аватара.");
+
         StudentDTO student = studentService.getStudentByID(studentID);
         Path filePath = Path.of(avatarsDir, studentID + "." + getExtension(file.getOriginalFilename()));
         Files.createDirectories(filePath.getParent());
@@ -44,6 +51,8 @@ public class AvatarService {
              BufferedInputStream bis = new BufferedInputStream(is, 1024);
              BufferedOutputStream bos = new BufferedOutputStream(os, 1024)) {
             bis.transferTo(bos);
+        }catch (IOException e){
+            logger.error("Ошибка при загрузке аватара:",e);
         }
 
         Avatar avatar = findAvatar(studentID);
