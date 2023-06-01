@@ -8,6 +8,7 @@ public class StudentsSpringAppApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(StudentsSpringAppApplication.class, args);
+		System.out.println("Checking new feature");
 	}
 
 }
